@@ -25,7 +25,11 @@ const CreateNote = () => {
     <main className={css.main}>
       <div className={css.container}>
         <h1 className={css.title}>Create note</h1>
-        <NoteForm onClose={() => {}} />
+        <NoteForm
+          onClose={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </div>
     </main>
   );
