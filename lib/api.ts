@@ -49,7 +49,7 @@ export const fetchNotes = async (
 
   return {
     ...response.data,
-    currentPage: page, // ← додаємо явно
+    currentPage: page,
   };
 };
 
