@@ -13,6 +13,14 @@ interface NoteFormProps {
   onClose: () => void;
 }
 
+const NoteFormClient = () => {
+  const router = useRouter();
+
+  return <NoteForm onClose={() => router.back()} />;
+};
+
+export default NoteFormClient;
+
 export function NoteForm({ onClose }: NoteFormProps) {
   const fieldId = useId();
   const queryClient = useQueryClient();

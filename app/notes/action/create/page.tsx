@@ -1,4 +1,4 @@
-import { NoteForm } from "@/components/NoteForm/NoteForm";
+import NoteFormClient from "@/components/NoteForm/NoteForm";
 import css from "./page.module.css";
 import { Metadata } from "next";
 
@@ -25,11 +25,7 @@ const CreateNote = () => {
     <main className={css.main}>
       <div className={css.container}>
         <h1 className={css.title}>Create note</h1>
-        <NoteForm
-          onClose={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <NoteFormClient />
       </div>
     </main>
   );
