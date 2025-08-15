@@ -1,11 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api";
-import { FormValues } from "@/types/note";
+
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useNoteDraftStore } from "@/lib/store/noteStore";
 
 import css from "./NoteForm.module.css";
 
@@ -15,7 +16,6 @@ interface NoteFormProps {
 
 const NoteFormClient = () => {
   const router = useRouter();
-
   return <NoteForm onClose={() => router.back()} />;
 };
 
@@ -25,20 +25,20 @@ export function NoteForm({ onClose }: NoteFormProps) {
   const fieldId = useId();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const handleClose = () => {
-    router.back();
-  };
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    title: "",
-    content: "",
-    tag: "Todo",
-  });
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
+
+  const [formValues, setFormValues] = useState(draft);
+
+  useEffect(() => {
+    setFormValues(draft);
+  }, [draft]);
 
   const mutation = useMutation({
     mutationFn: createNote,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
+      clearDraft();
       onClose();
       toast.success(`Note "${data.title}" created.`);
     },
@@ -53,7 +53,9 @@ export function NoteForm({ onClose }: NoteFormProps) {
     >
   ) => {
     const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    const updated = { ...formValues, [name]: value };
+    setFormValues(updated);
+    setDraft(updated);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
