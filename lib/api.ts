@@ -89,3 +89,16 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
   );
   return response.data;
 };
+
+//noteStore.ts
+
+export type NewNoteData = {
+  title: string;
+  content: string;
+  categoryId: string;
+};
+
+export const noteDraft = async (data: NewNoteData) => {
+  const res = await axios.post<Note>("/notes", data);
+  return res.data;
+};
