@@ -3,17 +3,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { FormValues } from "@/types/note";
+export type NewNoteData = FormValues;
+
 type NoteDraftStore = {
   draft: NewNoteData;
   setDraft: (note: NewNoteData) => void;
   clearDraft: () => void;
 };
-export type NewNoteData = {
-  title: string;
-  content: string;
-  tag: string;
-};
-
 const initialDraft: NewNoteData = {
   title: "",
   content: "",

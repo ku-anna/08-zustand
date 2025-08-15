@@ -9,9 +9,15 @@ interface NotesHttpResponse {
 }
 
 // TAGS
-export type Tag = "Work" | "Todo" | "Personal" | "Meeting" | "Shopping";
-export const tags: Tag[] = ["Work", "Todo", "Personal", "Meeting", "Shopping"];
-export async function fetchNotesByTag(tagName: Tag) {
+export type NoteTag = "Work" | "Todo" | "Personal" | "Meeting" | "Shopping";
+export const tags: NoteTag[] = [
+  "Work",
+  "Todo",
+  "Personal",
+  "Meeting",
+  "Shopping",
+];
+export async function fetchNotesByTag(tagName: NoteTag) {
   return Promise.resolve([]);
 }
 
@@ -95,7 +101,7 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
 export type NewNoteData = {
   title: string;
   content: string;
-  categoryId: string;
+  tag: NoteTag;
 };
 
 export const noteDraft = async (data: NewNoteData) => {

@@ -13,4 +13,4 @@ export interface FormValues {
   tag: NoteTag;
 }
 
-type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";

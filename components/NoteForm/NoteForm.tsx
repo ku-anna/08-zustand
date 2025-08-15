@@ -3,11 +3,12 @@
 import { useId, useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api";
+import { NewNoteData } from "@/lib/store/noteStore";
 
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useNoteDraftStore } from "@/lib/store/noteStore";
-
+import { NoteTag } from "@/types/note";
 import css from "./NoteForm.module.css";
 
 interface NoteFormProps {
@@ -28,7 +29,7 @@ export function NoteForm({ onClose }: NoteFormProps) {
 
   const { draft, setDraft, clearDraft } = useNoteDraftStore();
 
-  const [formValues, setFormValues] = useState(draft);
+  const [formValues, setFormValues] = useState<NewNoteData>(draft);
 
   useEffect(() => {
     setFormValues(draft);
@@ -53,9 +54,14 @@ export function NoteForm({ onClose }: NoteFormProps) {
     >
   ) => {
     const { name, value } = e.target;
-    const updated = { ...formValues, [name]: value };
+    let updated;
+    if (name === "tag") {
+      updated = { ...formValues, [name]: value as NoteTag };
+    } else {
+      updated = { ...formValues, [name]: value };
+    }
     setFormValues(updated);
-    setDraft(updated);
+    setDraft(updated as typeof formValues);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
