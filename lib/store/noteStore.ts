@@ -21,10 +21,8 @@ export const useNoteDraftStore = create<NoteDraftStore>()(
   persist(
     (set) => ({
       draft: initialDraft,
-      tag: initialDraft.tag,
-      setDraft: (note) => set(() => ({ draft: note, tag: note.tag })),
-      clearDraft: () =>
-        set(() => ({ draft: initialDraft, tag: initialDraft.tag })),
+      setDraft: (note) => set(() => ({ draft: note })),
+      clearDraft: () => set(() => ({ draft: initialDraft })),
     }),
     {
       name: "note-draft",
